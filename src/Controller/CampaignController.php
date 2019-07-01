@@ -62,19 +62,9 @@ class CampaignController extends AbstractController
         $participant = $this->getDoctrine()
         ->getRepository(Participant::class)
         ->findAll($id);
-        if (!$participant) {
-            throw $this->createNotFoundException(
-                'Pas de participant trouvé pour cet id '.$id
-            );
-        }
         $payment = $this->getDoctrine()
         ->getRepository(Payment::class)
         ->findAll($id);
-        if (!$payment) {
-            throw $this->createNotFoundException(
-                'Pas de payment trouvé pour cet id '.$id
-            );
-        }
         //dd($participant);
         return $this->render('campaign/show.html.twig', [
             'campaign' => $campaign,

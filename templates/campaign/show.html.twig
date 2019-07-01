@@ -19,15 +19,19 @@
     <!-- Show progress -->
     <section class="progress-section">
         <div class="progress">
-            {% set sumratings = 0 %}
-            {% for rating in payments %}
-            {% set sumratings = sumratings + rating.amount %}
+                <!-- ((Va-Vd)/Vd)*100 -->
+            {% set total = 0 %}
+            {% set goal = campaign.goal %}
+            {% for payment in payments %}
+            {% set total = total + payment.amount %}
             {% endfor %}
-            {% set result = sumratings / payments|length %}
-            <div class="determinate" style="width: {{ result|round }}%"><span>{{ result|round }} % de l'objectif</span></div>
+            {% set rest = goal - total %}
+            {% set  advancement = (total / ( total + (goal - total) )) * 100 %}
+            
+            <div class="determinate" style="width:{{ advancement|round }}%"><span>{{ advancement|round }} % de l'objectif</span></div>
         </div>
     </section>
-
+{{ dump(goal) }}
     <div class="container participe">
         <div class="section">
             <!-- Participation section -->
@@ -53,7 +57,12 @@
                 <div class="col s12 m6 l3 offset-l3">
                     <div class="icon-block center">
                         <div class="btn-large btn-floating white"><i class="material-icons teal-text">person</i></div>
-                        <h3 class="center">12</h3>
+                        {% set total = 0 %}
+                        {% for participant in participants %}
+                        {% set total = total + 1 %}
+                        {% endfor %}
+                        {% set totalParticipants = total %}
+                        <h3 class="center">{{ totalParticipants }}</h3>
                         <p class="light">Participants</p>
                     </div>
                 </div>
@@ -61,7 +70,12 @@
                 <div class="col s12 m6 l3">
                     <div class="icon-block center">
                         <div class="btn-large btn-floating white"><i class="material-icons teal-text">redeem</i></div>
-                        <h3 class="center">220</h3>
+                        {% set total = 0 %}
+                        {% for payment in payments %}
+                        {% set total = total + payment.amount %}
+                        {% endfor %}
+                        {% set harvest = total %}
+                        <h3 class="center">{{ harvest }} €</h3>
                         <p class="light">euros récoltés</p>
                     </div>
                 </div>
