@@ -21,7 +21,7 @@
         <div class="progress">
             {% set total = 0 %}
             {% set goal = campaign.goal %}
-            {% for payment in payments %}
+            {% for payment in payments if payment.participant.campaign.id == campaignId %}
             {% set total = total + payment.amount %}
             {% endfor %}
             {% set rest = goal - total %}
@@ -59,7 +59,7 @@
                     <div class="icon-block center">
                         <div class="btn-large btn-floating white"><i class="material-icons teal-text">person</i></div>
                         {% set total = 0 %}
-                        {% for participant in participants %}
+                        {% for participant in participants if participant.campaign.id == campaignId %}
                         {% set total = total + 1 %}
                         {% endfor %}
                         {% set totalParticipants = total %}
@@ -72,7 +72,7 @@
                     <div class="icon-block center">
                         <div class="btn-large btn-floating white"><i class="material-icons teal-text">redeem</i></div>
                         {% set total = 0 %}
-                        {% for payment in payments %}
+                        {% for payment in payments if payment.participant.campaign.id == campaignId %}
                         {% set total = total + payment.amount %}
                         {% endfor %}
                         {% set harvest = total %}
@@ -117,7 +117,7 @@
 
                         <tbody>  
                             {% set i = 0 %}       
-                            {% for participant in participants %}
+                            {% for participant in participants if participant.campaign.id == campaignId %}
                                 <tr>
                                     <td>{{ participant.name }}</td>
                                     <td>{{ participant.email }}</td>

@@ -35,10 +35,10 @@ class PaymentController extends AbstractController
      */
     public function new(Request $request, Campaign $campaign, $id): Response
     {
+        dd($id);
         $payment = new Payment();
         $form = $this->createForm(PaymentType::class, $payment);
         $form->handleRequest($request);
-       // dd(getParticipant());
         if ($form->isSubmitted() && $form->isValid()) {
             $payment->getParticipant()->setCampaign($campaign);
             $entityManager = $this->getDoctrine()->getManager();

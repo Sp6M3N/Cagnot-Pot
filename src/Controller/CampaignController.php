@@ -58,18 +58,18 @@ class CampaignController extends AbstractController
      * @Route("/{id}", name="campaign_show", methods={"GET"})
      */
     public function show($id, Campaign $campaign): Response
-    {
+    {;
         $participant = $this->getDoctrine()
         ->getRepository(Participant::class)
         ->findAll($id);
         $payment = $this->getDoctrine()
         ->getRepository(Payment::class)
         ->findAll($id);
-        //dd($participant);
         return $this->render('campaign/show.html.twig', [
             'campaign' => $campaign,
             'payments' => $payment,
             'participants' => $participant,
+            'campaignId' => $id
         ]);
     }
 
