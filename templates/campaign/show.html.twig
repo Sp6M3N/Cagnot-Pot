@@ -19,31 +19,32 @@
     <!-- Show progress -->
     <section class="progress-section">
         <div class="progress">
-                <!-- ((Va-Vd)/Vd)*100 -->
             {% set total = 0 %}
             {% set goal = campaign.goal %}
             {% for payment in payments %}
             {% set total = total + payment.amount %}
             {% endfor %}
             {% set rest = goal - total %}
-            {% set  advancement = (total / ( total + (goal - total) )) * 100 %}
-            
+            {% set  advancement = (total / ( total + (goal - total) )) * 100 %}         
             <div class="determinate" style="width:{{ advancement|round }}%"><span>{{ advancement|round }} % de l'objectif</span></div>
         </div>
     </section>
-{{ dump(goal) }}
     <div class="container participe">
         <div class="section">
             <!-- Participation section -->
             <div class="row">
                 <div class="card col s12 m12 l8 offset-l2">
                     <div class="card-content">
+                            {% if total >= goal %}
+                            <h3 class="center">Campagne terminé merci à tous !!!</h3>
+                            {% else %}
                         <div class="input-field col s12 l6">
                             <input id="mount" type="number" class="validate">
                             <label for="mount">Votre participation</label>
                         </div>
                         <a href="{{ path('payment_new', {'id':campaign.id}) }}" class="btn-large waves-effect waves-light pink lighten-1 col s12 l6">Participer</a>
                         <div class="clearfix"></div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

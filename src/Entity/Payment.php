@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Payment
@@ -31,6 +32,8 @@ class Payment
      * @var int|null
      *
      * @ORM\Column(name="amount", type="integer", nullable=true)
+     * @Assert\Range(
+     *  min = 0)
      */
     private $amount;
 
