@@ -1,0 +1,31 @@
+{# {{ form_start(form) }}
+{{ form_widget(form) }}
+
+<button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }} #}
+
+{{ form_start(form) }}
+<input name="campaign_id" type="hidden" value="">
+<h5 class="center">Votre identité</h5>
+<div class="input-field col s12 l6">
+        {{ form_widget(form.participant.email, {'attr': {'class': 'participant validate'}}) }}
+        {{ form_label(form.participant.email,'Votre Email') }}
+</div>
+<div class="input-field col s12 l6">
+        {{ form_widget(form.participant.name, {'attr': {'class': 'participant validate'}}) }}
+        {{ form_label(form.participant.name,'Votre Nom') }}
+</div>
+<div class="input-field col s12 l6">
+        {{ form_widget(form.amount, {'attr': {'class': 'validate'}}) }}
+        {{ form_label(form.amount,'Votre participation') }}
+</div>
+<div class="input-field col s12 l6">
+    <a class="btn btn-large waves-effect waves-light grey col s12" href="#!">Annuler</a>
+</div>
+<div class="input-field col s12 l6">
+    <button class="btn btn-large waves-effect waves-light pink lighten-1 col s12" type="submit">
+        {{ button_label|default('Participer') }}
+        <i class="material-icons right">euro_symbol</i>
+    </button>
+</div>
+{{ form_end(form) }}
