@@ -70,7 +70,7 @@ class CampaignController extends AbstractController
         $payment = $this->getDoctrine()
         ->getRepository(Payment::class)
         ->findAll($id);
-        if (!$participant) {
+        if (!$payment) {
             throw $this->createNotFoundException(
                 'Pas de payment trouvé pour cet id '.$id
             );

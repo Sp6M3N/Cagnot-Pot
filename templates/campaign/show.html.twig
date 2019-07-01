@@ -19,7 +19,12 @@
     <!-- Show progress -->
     <section class="progress-section">
         <div class="progress">
-            <div class="determinate" style="width: 70%"><span>70% de l'objectif</span></div>
+            {% set sumratings = 0 %}
+            {% for rating in payments %}
+            {% set sumratings = sumratings + rating.amount %}
+            {% endfor %}
+            {% set result = sumratings / payments|length %}
+            <div class="determinate" style="width: {{ result|round }}%"><span>{{ result|round }} % de l'objectif</span></div>
         </div>
     </section>
 
@@ -95,15 +100,15 @@
                         </tr>
                         </thead>
 
-                        <tbody>         
+                        <tbody>  
+                            {% set i = 0 %}       
                             {% for participant in participants %}
                                 <tr>
                                     <td>{{ participant.name }}</td>
                                     <td>{{ participant.email }}</td>
-                                    {% for id, payment in payments %}
-                                        <td>{{payment.amount}} €</td>
-                                    {% endfor %}
+                                    <td>{{ payments[i].amount }} €</td>
                                 </tr>
+                                 {% set i = i + 1 %}
                             {% endfor %} 
                         </tbody>
                     </table>
