@@ -1,10 +1,4 @@
 {# {{ form_start(form) }}
-{{ form_widget(form) }}
-
-<button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }} #}
-
-{{ form_start(form) }}
 <input name="campaign_id" type="hidden" value="">
 <h5 class="center">Votre identité</h5>
 <div class="input-field col s12 l6">
@@ -28,10 +22,11 @@
         <i class="material-icons right">euro_symbol</i>
     </button>
 </div>
-{{ form_end(form) }}
+{{ form_end(form) }} #}
 
 
-<!-- {{ form_start(form) }}
+{{ form_start(form) }}
+<input name="campaign_id" type="hidden" value="">
 <h5 class="center">Votre identité</h5>
 <div class="input-field col s12 l6">
     {{ form_widget(form.participant.name, {'attr': {'class': 'participant validate'}}) }}
@@ -45,19 +40,21 @@
     {{ form_widget(form.participant.email, {'attr': {'class': 'participant validate'}}) }}
     {{ form_label(form.participant.email,'Votre Email') }}
 </div>
-<p>
-    <label>
-        <input type="checkbox" />
-        <span>Masquer mon identité auprès des autres participants</span>
-    </label>
-</p>
-<p>
-    <label>
-        <input type="checkbox" />
-        <span>Masquer le montant de ma participation auprès des autres participants</span>
-    </label>
-</p>
-<div class="clearfix"></div>
+<div class="input-field col s12 l6">
+    <p>
+        <label>
+            <input type="checkbox" name='payment[hiddenIdentity]' value= '1' />
+            <span>Masquer mon identité auprès des autres participants</span>
+        </label>
+    </p>
+    <p>
+        <label>
+            <input type="checkbox" name='payment[hiddenAmount]' value= '1' />
+            <span>Masquer le montant de ma participation auprès des autres participants</span>
+        </label>
+    </p>
+</div>
+{# <div class="clearfix"></div>
 <h5 class="center">Paiement</h5>
 <div class="input-field col s12">
     <input id="card_name" type="text" class="validate">
@@ -74,7 +71,7 @@
 <div class="input-field col s12 l4">
     <input id="card_cvv" type="text" class="validate">
     <label for="card_cvv">CVV</label>
-</div>
+</div> #}
 <div class="input-field col s12 l6">
     <a href="#!" class="btn btn-large waves-effect waves-light grey col s12">Annuler</a>
 </div>
@@ -84,4 +81,6 @@
         <i class="material-icons right">euro_symbol</i>
     </button>
 </div>
-{{ form_end(form) }} -->
+{% do form.hiddenIdentity.setRendered %}
+{% do form.hiddenAmount.setRendered %}
+{{ form_end(form) }}

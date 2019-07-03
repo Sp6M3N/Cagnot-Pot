@@ -57,19 +57,41 @@ class CampaignController extends AbstractController
     /**
      * @Route("/{id}", name="campaign_show", methods={"GET"})
      */
-    public function show($id, Campaign $campaign): Response
-    {;
-        $participant = $this->getDoctrine()
+    public function show($id, Campaign $campaign, Request $request): Response
+    {
+        $participants = $this->getDoctrine()
         ->getRepository(Participant::class)
         ->findAll($id);
-        $payment = $this->getDoctrine()
+
+        $payments = $this->getDoctrine()
         ->getRepository(Payment::class)
         ->findAll($id);
+
+        $totalAmount = 0;
+        $count = 0;
+        $objectif = 0;        
+        foreach ($participants as $participant) {
+             if ($participant->getCampaign()->getId() == $id)
+            {
+                $count++;
+                $goal = $participant->getCampaign()->getGoal();
+                foreach ($payments as $payment) {
+                    if ($payment->getParticipant()->getId() == $participant->getId()){
+                        $totalAmount += $payment->getAmount();
+                    }
+                }
+            }
+        }
+        $advancement = ($totalAmount / ( $totalAmount + ($goal - $totalAmount) )) * 100 ; 
+          // dd($payments);
         return $this->render('campaign/show.html.twig', [
             'campaign' => $campaign,
-            'payments' => $payment,
-            'participants' => $participant,
-            'campaignId' => $id
+            'payments' => $payments,
+            'participants' => $participants,
+            'totalAmount' => $totalAmount,
+            'count' => $count,
+            'advancement' => $advancement,
+            'goal' => $goal,
         ]);
     }
 

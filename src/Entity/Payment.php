@@ -18,7 +18,6 @@ class Payment
      * @Assert\Valid
      */
 
-
     /**
      * @var int
      *
@@ -60,6 +59,22 @@ class Payment
      * })
      */
     private $participant;
+
+    /**
+     * @var bool          
+     *  @ORM\Column(name="hiddenIdentity", type="boolean", nullable=true, options={"default"=0
+     *  })            
+     */     
+    
+    private $hiddenIdentity;
+
+    /**       
+     * @var bool           
+     *  @ORM\Column(name="hiddenAmount", type="boolean", nullable=true, options={"default"=0
+     *  })            
+     */     
+    
+    private $hiddenAmount;
 
     public function getId(): ?int
     {
@@ -110,6 +125,29 @@ class Payment
     public function setParticipant(?Participant $participant): self
     {
         $this->participant = $participant;
+
+        return $this;
+    }
+    public function getHiddenIdentity(): ?bool
+    {
+        return $this->hiddenIdentity;
+    }
+
+    public function setHiddenIdentity(?bool $hiddenIdentity): self
+    {
+        $this->hiddenIdentity = $hiddenIdentity;
+
+        return $this;
+    }
+
+    public function getHiddenAmount(): ?bool
+    {
+        return $this->hiddenAmount;
+    }
+
+    public function setHiddenAmount(?bool $hiddenAmount): self
+    {
+        $this->hiddenAmount = $hiddenAmount;
 
         return $this;
     }

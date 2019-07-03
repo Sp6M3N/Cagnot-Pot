@@ -19,13 +19,12 @@
     <!-- Show progress -->
     <section class="progress-section">
         <div class="progress">
-            {% set total = 0 %}
+            {# {% set total = 0 %}
             {% set goal = campaign.goal %}
-            {% for payment in payments if payment.participant.campaign.id == campaignId %}
+            {% for payment in payments if payment.participant.campaign.id == campaign.id %}
             {% set total = total + payment.amount %}
             {% endfor %}
-            {% set rest = goal - total %}
-            {% set  advancement = (total / ( total + (goal - total) )) * 100 %}         
+            {% set  advancement = (total / ( total + (goal - total) )) * 100 %}          #}
             <div class="determinate" style="width:{{ advancement|round }}%"><span>{{ advancement|round }} % de l'objectif</span></div>
         </div>
     </section>
@@ -35,7 +34,7 @@
             <div class="row">
                 <div class="card col s12 m12 l8 offset-l2">
                     <div class="card-content">
-                            {% if total >= goal %}
+                            {% if totalAmount >= goal %}
                             <h3 class="center">Campagne terminé merci à tous !!!</h3>
                             {% else %}
                         <div class="input-field col s12 l6">
@@ -58,12 +57,12 @@
                 <div class="col s12 m6 l3 offset-l3">
                     <div class="icon-block center">
                         <div class="btn-large btn-floating white"><i class="material-icons teal-text">person</i></div>
-                        {% set total = 0 %}
-                        {% for participant in participants if participant.campaign.id == campaignId %}
+                        {# {% set total = 0 %}
+                        {% for participant in participants if participant.campaign.id == campaign.id %}
                         {% set total = total + 1 %}
                         {% endfor %}
-                        {% set totalParticipants = total %}
-                        <h3 class="center">{{ totalParticipants }}</h3>
+                        {% set totalParticipants = total %} #}
+                        <h3 class="center">{{ count }}</h3>
                         <p class="light">Participants</p>
                     </div>
                 </div>
@@ -71,12 +70,12 @@
                 <div class="col s12 m6 l3">
                     <div class="icon-block center">
                         <div class="btn-large btn-floating white"><i class="material-icons teal-text">redeem</i></div>
-                        {% set total = 0 %}
-                        {% for payment in payments if payment.participant.campaign.id == campaignId %}
+                        {# {% set total = 0 %}
+                        {% for payment in payments if payment.participant.campaign.id == campaign.id %}
                         {% set total = total + payment.amount %}
                         {% endfor %}
-                        {% set harvest = total %}
-                        <h3 class="center">{{ harvest }} €</h3>
+                        {% set harvest = total %} #}
+                        <h3 class="center">{{ totalAmount }} €</h3>
                         <p class="light">euros récoltés</p>
                     </div>
                 </div>
@@ -88,15 +87,12 @@
                         <label for="description">Description</label>
                         <textarea id="description" class="materialize-textarea" readonly="readonly">{{ campaign.content }}</textarea>
                     </div>
-                    <div class="input-field col s12 l6">
-                        <input id="goal" type="number" readonly="readonly" value="{{ campaign.goal }}">
+                    <div class="input-field col s12">
                         <label for="goal">Objectif</label>
+                        <textarea id="goal" type="number" class="materialize-textarea" readonly="readonly">{{ campaign.goal }} €</textarea>
                     </div>
                     <div class="col s12 l6 offset-l3">
-                        <button class="btn btn-large waves-effect waves-light col s12" type="submit" name="action">
-                            Modifiez la campagne
-                            <i class="material-icons right">edit</i>
-                        </button>
+                        <a href="{{ path('campaign_edit', {'id':campaign.id}) }}" class="btn btn-large waves-effect waves-light col s12">Modifiez la campagne<i class="material-icons right">edit</i></a>
                     </div>
                 </form>
             </div>
@@ -116,14 +112,21 @@
                         </thead>
 
                         <tbody>  
-                            {% set i = 0 %}       
-                            {% for participant in participants if participant.campaign.id == campaignId %}
+                            {% for payment in payments if payment.participant.campaign.id == campaign.id %}
                                 <tr>
-                                    <td>{{ participant.name }}</td>
-                                    <td>{{ participant.email }}</td>
-                                    <td>{{ payments[i].amount }} €</td>
+                                    {% if payment.hiddenIdentity == true %}
+                                    <td>Anonyme</td>
+                                    <td>Anonyme</td>
+                                    {% else %}
+                                    <td>{{ payment.participant.name }}</td>
+                                    <td>{{ payment.participant.email }}</td>
+                                    {% endif %}
+                                    {% if payment.hiddenAmount == true %}
+                                    <td>Masqué</td>
+                                    {% else %}
+                                    <td>{{ payment.amount }} €</td>
+                                    {% endif %}
                                 </tr>
-                                 {% set i = i + 1 %}
                             {% endfor %} 
                         </tbody>
                     </table>

@@ -35,7 +35,6 @@ class PaymentController extends AbstractController
      */
     public function new(Request $request, Campaign $campaign, $id): Response
     {
-        dd($id);
         $payment = new Payment();
         $form = $this->createForm(PaymentType::class, $payment);
         $form->handleRequest($request);
@@ -47,7 +46,7 @@ class PaymentController extends AbstractController
 
             return $this->redirectToRoute('campaign_show', ['id' => $campaign->getId()]);
         }
-
+        //dd($payment);
         return $this->render('payment/new.html.twig', [
             'payment' => $payment,
             'form' => $form->createView(),
